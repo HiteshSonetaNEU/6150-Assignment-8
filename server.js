@@ -18,9 +18,16 @@ app.post('/user/create', async (req, res) => {
 try {
   const { fullName, email, password } = req.body;
 
-  
-  if (!checkEmail(email) || !checkPassword(password)) {
-    return res.status(400).json({ message: 'Invalid email or password' });
+  if (!checkFullName(fullName)){
+    return res.status(400).json({ message: 'Special Characters in full name are not allowed' });
+  }
+
+  if (!checkEmail(email) ) {
+    return res.status(400).json({ message: 'Invalid email, use Northeastern Mail' });
+  }
+
+  if (!checkPassword(password)) {
+    return res.status(400).json({ message: 'Invalid password, password length should be greater than 12' });
   }
 
   var check = await User.findOne({ email });
@@ -46,7 +53,11 @@ app.put('/user/edit', async (req, res) => {
   const email = req.query.email;
 
   if (!checkPassword(password)) {
-    return res.status(400).json({ message: 'Invalid password, password length should be greater than 8' });
+    return res.status(400).json({ message: 'Invalid password, password length should be greater than 12' });
+  }
+
+  if (!checkFullName(fullName)){
+    return res.status(400).json({ message: 'Special Characters in full name are not allowed' });
   }
 
   try {
@@ -97,6 +108,9 @@ function checkPassword(password) {
 
 function checkEmail(email) {
   return /^[a-zA-Z0-9._-]+@northeastern\.edu$/.test(email);
+}
+function checkFullName(fullName){
+  return  /^[a-zA-Z_]+$/.test(fullName);
 }
 
 const PORT = 3000;
