@@ -33,6 +33,7 @@ Endpoint: DELETE /user/delete
 Params:email (String): User's email address to be deleted.
 
 email (String): User's email address to be deleted.
+
 4. Get All Users
 Endpoint: GET /user/getAll
 Params: None
